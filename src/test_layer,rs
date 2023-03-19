@@ -1,0 +1,77 @@
+
+
+
+// used in backward - store layers
+struct Layers{
+    layers:Vec<Layer>,
+    grad:Vec<Data> // outputs of each layers
+}
+impl Layers{
+    fn forward()->Data; // run though all layer in self.layers
+    fn backward()->Data; // update weights
+}
+
+
+// build Layers
+struct LayersBuilder{ // Vector of layers
+    layers:Vec<Layer>
+} 
+impl LayersBuilder{
+    fn new()->Self{todo!()}
+    fn add()->&mut self{todo!()}
+    fn remove()->&mut self{todo!()}
+    fn build()->Layers{todo!()}
+}
+
+
+
+///////////////////// Individual Layer(Weigh,bias,activation) ///////////////////////////
+
+struct Layer{
+    weight:Data,
+    bias:Data,
+    activation:Box<dyn ActFunc>
+}
+
+impl Layer{
+    fn new()->Self{todo!()}
+    fn forward()->self{todo!()}
+}
+
+
+struct LayerBuilder{
+    weight:Data,
+    bias:Data,
+    activation:Box<dyn ActFunc>,
+    shape:(usize,usize)
+}
+impl LayerBuilder{
+    pub fn new()->self{todo!()}
+    pub fn activation()->self{todo!()}
+    pub fn bias()->self{todo!()}
+
+    pub fn dynamic_weight_init(t:bool)->self{todo!()} // choose the best weight initialization based in parameters
+    pub fn init_weight(weight:WeightInit)->self{todo!()} // 
+
+    pub fn zeros()->self{todo!()}
+    pub fn ones()->self{todo!()}
+    pub fn uniform()->self{todo!()}
+
+    pub fn build()->self{todo!()}
+}
+
+
+
+
+enum WeightInit{
+    Random,
+    Xavier,
+    He,
+    LeCun
+}
+
+
+
+
+
+

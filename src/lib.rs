@@ -8,6 +8,7 @@ use ndarray::Array2;
 pub type Data = Array2<f32>;
 
 
+pub mod dataset;
 
 /// Module of Activation functionse
 pub mod activations; 

@@ -2,6 +2,8 @@ use super::Data;
 use ndarray::{s, Array2, ArrayBase,Ix2, Data as NdData};
 use rand::{distributions::Uniform, Rng,thread_rng}; 
 use std::f32::consts::E;
+use rand::seq::SliceRandom;
+
 
 
 pub fn log(z:Data)->Data{
@@ -23,6 +25,23 @@ pub fn min(z:Data) ->f32{
 pub fn sqrt(z:Data)->Data{
     z.mapv(|a| a.sqrt())
 }
+
+
+
+pub fn shuffle(data: &mut Data)->Data{
+    
+    let mut rng = rand::thread_rng();
+    let mut row_indices:Vec<usize> = (0..data.shape()[0]).collect();
+    row_indices.shuffle(&mut rng);
+    let mut shuffled_a = Array2::zeros(data.dim());
+
+    for(i, row_index) in row_indices.iter().enumerate(){
+        shuffled_a.row_mut(i).assign(&data.slice(s![*row_index, ..]));
+    }
+
+    return shuffled_a
+}
+
 
 
 pub fn get_batch(dataset:Data,size:usize)->Vec<Data>{

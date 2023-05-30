@@ -51,6 +51,21 @@ impl ActFunc for ReLU{
     }
 }
 
+
+/// The Leaky ReLU activation function
+#[derive(Debug, Default, Clone)]
+pub struct LeakyReLU;
+impl ActFunc for LeakyReLU{
+    fn call(&self, z:Data)->Data{
+        z.mapv(|x|{if x < 0.0 { 0.01*x }else{ x } })
+    }
+
+    fn act_grad(&self, z:Data)->Data{
+        z.mapv(|x|{if x < 0.0 { 0.01*x }else{ x }})
+    }
+}
+
+
 /// The Softmax activation function.
 #[derive(Debug,Default,Clone)]
 pub struct Softmax;
@@ -71,30 +86,30 @@ impl ActFunc for Softmax{
 }
 
 
-/// Activations functions collect
-#[derive(Debug,Clone)]
-pub struct Activation; 
-impl Activation{
+// /// Activations functions collect
+// #[derive(Debug,Clone)]
+// pub struct Activation; 
+// impl Activation{
 
-    #[allow(non_upper_case_globals)]
-	pub const Sigmoid:Sigmoid = Sigmoid;
+//     #[allow(non_upper_case_globals)]
+// 	pub const Sigmoid:Sigmoid = Sigmoid;
 
-    #[allow(non_upper_case_globals)]
-    pub const Linear:Linear = Linear;
+//     #[allow(non_upper_case_globals)]
+//     pub const Linear:Linear = Linear;
 
-    #[allow(non_upper_case_globals)]
-	pub const ReLU:ReLU = ReLU;
+//     #[allow(non_upper_case_globals)]
+// 	pub const ReLU:ReLU = ReLU;
 
-    #[allow(non_upper_case_globals)]
-    pub const Softmax:Softmax = Softmax;
-}
+//     #[allow(non_upper_case_globals)]
+//     pub const Softmax:Softmax = Softmax;
+// }
 
 
 
 #[cfg(test)]
 mod test_activation{
     use ndarray::arr2;
-    use super::{Activation, ActFunc};
+    use super::{*,ActFunc};
 
     // Using Data = Array2<f32>
     const DATA: [[f32; 3]; 2] = [[4.0,-5.0,-6.0],[-7.0,8.0,9.0]];
@@ -102,7 +117,7 @@ mod test_activation{
     #[test]
     // #[ignore = "Still developing"] 
     fn softmax(){
-        let softmax = Activation::Softmax;
+        let softmax = Softmax;
         let output = softmax.call(arr2(&DATA));
 
         assert_eq!(
@@ -116,7 +131,7 @@ mod test_activation{
 
     #[test]
     fn sigmoid(){
-        let sigmoid = Activation::Sigmoid;
+        let sigmoid = Sigmoid;
         let output = sigmoid.call(arr2(&DATA));
 
         assert_eq!(
@@ -128,7 +143,7 @@ mod test_activation{
 
     #[test]
     fn linear(){
-        let linear = Activation::Linear;
+        let linear = Linear;
         let output = linear.call(arr2(&DATA));
 
         assert_eq!(
@@ -139,7 +154,7 @@ mod test_activation{
 
     #[test]
     fn relu(){
-        let relu = Activation::ReLU;
+        let relu = ReLU;
         let output = relu.call(arr2(&DATA));
 
         assert_eq!(

@@ -3,7 +3,7 @@ use rand::{distributions::Uniform, Rng};
 use crate::toolkit::xavier_initialization;
 
 use super::Data;
-use super::activations::{ActFunc, Activation};
+use super::activations::{ActFunc, *};
 use super::toolkit::build_random_weight;
 
 /// Linear Layer
@@ -146,7 +146,7 @@ impl TestLayerBuilder{
 		Self{
 			weight:Array2::<f32>::ones((1,1)),
 			bias:Some(Array2::<f32>::ones((1,1))), // Optino<Data>
-			activation: Box::new(Activation::Linear),
+			activation: Box::new(Linear),
 			shape:(1,1),
 		}
 	}

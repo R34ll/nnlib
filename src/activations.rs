@@ -61,7 +61,7 @@ impl ActFunc for LeakyReLU{
     }
 
     fn act_grad(&self, z:Data)->Data{
-        z.mapv(|x|{if x < 0.0 { 0.01*x }else{ x }})
+        z.mapv(|x|{if x < 0.0 { 0.01 }else{ 1.0 }})
     }
 }
 
